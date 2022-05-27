@@ -1,7 +1,8 @@
-import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { api } from '@lib/api';
-import { APIUser } from '@lib/api-types';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
+
+import { api } from '@lib/api';
+
+import { LoadingScreen } from '@components/screens/LoadingScreen';
 
 export interface AuthContextValue {
   user?: APIUser;

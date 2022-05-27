@@ -1,8 +1,10 @@
 import { createContext, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { Navigate } from 'react-router-dom';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+
 import { useAuth } from '@hooks/use-auth';
 import { OpCode, WSEvent, CloseEventCode } from '@utils/constants';
+
 import { LoadingScreen } from '@components/screens/LoadingScreen';
 
 export interface WebSocketMessage {

@@ -1,12 +1,15 @@
 import { WebSocket } from 'ws';
-import { api } from '@lib/api';
-import AuthService from '@services/auth-service';
+
 import { UserModel } from '@database/models/user';
-import { CloseEventCode, HEARTBEAT_INTERVAL, OpCode, WSEvent } from '@utils/constants';
+import { api } from '@lib/api';
 import logger from '@logger';
+import AuthService from '@services/auth-service';
+import { CloseEventCode, HEARTBEAT_INTERVAL, OpCode, WSEvent } from '@utils/constants';
+
 import { WebSocketServer } from '..';
-import { IdentifyMessage } from '../types';
+
 import { User } from '../structures/user';
+import { IdentifyMessage } from '../types';
 
 export async function onIdentify(wss: WebSocketServer, socket: WebSocket, data: IdentifyMessage['d']): Promise<void> {
   if (wss.users.has(socket)) {
@@ -23,11 +26,11 @@ export async function onIdentify(wss: WebSocketServer, socket: WebSocket, data: 
         },
       });
 
-      if (response.data?._id) {
+      if (response.data?.id) {
         const user = new User(response.data);
         logger.info(`[Socket] ${user.username} connected`);
 
-        if (!wss.users.some((x) => x._id === user._id)) {
+        if (!wss.users.some((x) => x.id === user.id)) {
           wss.users.broadcast(
             JSON.stringify({
               op: OpCode.Event,

@@ -1,13 +1,14 @@
 import 'dotenv/config';
 
-import express from 'express';
-import morgan from 'morgan';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import express from 'express';
 import http from 'http';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
 
 import { WebSocketServer } from '@core/websocket';
 import logger from '@logger';
+
 import router from './router';
 
 const PORT = process.env.PORT ?? 3000;
@@ -34,7 +35,7 @@ app.use((req, res) => {
   });
 });
 
-async function startServer() {
+async function startServer(): Promise<void> {
   await mongoose.connect(process.env.MONGODB_URI);
   server.listen(PORT, () => {
     logger.info(`Listening on port ${PORT}`);

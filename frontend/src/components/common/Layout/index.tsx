@@ -1,16 +1,17 @@
-import { Diversity } from '@components/icons/Diversity';
 import { useState } from 'react';
-import { CachedUser } from '@contexts/ws-cache-context';
-import { ToolBar } from './ToolBar';
-import { UserList } from './UserList';
+
+import { useWsCache } from '@hooks/use-ws-cache';
+
+import { Diversity } from '@components/icons/Diversity';
+
 import { Wrapper, UserListToggleBtn } from './styles';
-import { Chat } from './Chat';
 
-export interface LayoutProps {
-  users?: CachedUser[];
-}
+import { Chat } from '../Chat';
+import { ToolBar } from '../ToolBar';
+import { UserList } from '../UserList';
 
-export function Layout({ users }: LayoutProps) {
+export function Layout() {
+  const { users } = useWsCache();
   const [showUserList, setShowUserList] = useState(true);
 
   function toggleUserList() {
@@ -21,7 +22,7 @@ export function Layout({ users }: LayoutProps) {
     <Wrapper>
       <ToolBar>
         <UserListToggleBtn onClick={toggleUserList}>
-          <Diversity />
+          <Diversity fill="#fff" />
         </UserListToggleBtn>
       </ToolBar>
       <Chat />

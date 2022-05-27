@@ -1,14 +1,17 @@
+import { AxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
-import { TextInput } from '@components/ui/TextInput';
-import { Button } from '@components/ui/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '@hooks/use-auth';
-import { AxiosError } from 'axios';
 import { APIError } from '@lib/api';
+
 import { LoadingScreen } from '@components/screens/LoadingScreen';
+import { Button } from '@components/ui/Button';
+import { TextInput } from '@components/ui/TextInput';
+
 import { Container, LoginContainer, InputWrapper, Logo, InputLabel, ErrorBox } from './styles';
 
 export function Login() {

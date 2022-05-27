@@ -1,16 +1,17 @@
-import { ReactNode, useState } from 'react';
-import { CachedUser } from '@contexts/ws-cache-context';
-import { UserProfileModal } from '@components/modals/UserProfile';
-import { AuthLevel, AuthTag } from '@utils/constants';
+import { memo, ReactNode, useState } from 'react';
+
+import { UserProfileModal } from '@components/common/UserProfile';
+
 import { Container, ContainerFull, Content, Avatar, Username } from './styles';
 
 export interface MessageProps {
-  user: CachedUser;
+  user: APIUser;
   content: string | ReactNode;
   full?: boolean;
+  pending?: boolean;
 }
 
-export function Message({ user, content, full = true }: MessageProps) {
+function MessageComponent({ user, content, full = true, pending }: MessageProps) {
   const [showProfile, setShowProfile] = useState(false);
 
   function handleToggleProfile() {
@@ -26,7 +27,7 @@ export function Message({ user, content, full = true }: MessageProps) {
           alt={`Avatar de ${user.username}`}
         />
         <Username onClick={handleToggleProfile}>{user.username}</Username>
-        <Content>{content}</Content>
+        <Content pending={pending}>{content}</Content>
         <UserProfileModal
           user={user}
           open={showProfile}
@@ -38,7 +39,9 @@ export function Message({ user, content, full = true }: MessageProps) {
 
   return (
     <Container>
-      <Content>{content}</Content>
+      <Content pending={pending}>{content}</Content>
     </Container>
   );
 }
+
+export const Message = memo(MessageComponent);

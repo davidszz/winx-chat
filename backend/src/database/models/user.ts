@@ -1,10 +1,11 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import AuthService from '@services/auth-service';
+
 import logger from '@logger';
+import AuthService from '@services/auth-service';
 import { AuthLevel } from '@utils/constants';
 
 export interface UserModel {
-  _id?: string;
+  id: string;
   username: string;
   email: string;
   password?: string;
@@ -14,11 +15,13 @@ export interface UserModel {
   updatedAt: Date;
 }
 
-export const UserSchema = new Schema<UserModel>(
+type User = Omit<UserModel, 'id'> & { _id: string };
+
+export const UserSchema = new Schema<User>(
   {
     _id: {
       type: String,
-      default: () => new mongoose.Types.ObjectId().toString(),
+      default: (): string => new mongoose.Types.ObjectId().toString(),
     },
     username: {
       type: String,
@@ -46,10 +49,19 @@ export const UserSchema = new Schema<UserModel>(
       createdAt: true,
       updatedAt: true,
     },
+    toObject: {
+      /* eslint-disable no-param-reassign, no-underscore-dangle */
+      transform(_, ret): void {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
+      /* eslint-enable no-param-reassign, no-underscore-dangle */
+    },
   }
 );
 
-UserSchema.pre<UserModel & Document>('save', async function onSave() {
+UserSchema.pre<User & Document>('save', async function onSave() {
   if (!this.password && !this.isModified('password')) {
     return;
   }
@@ -62,4 +74,4 @@ UserSchema.pre<UserModel & Document>('save', async function onSave() {
   }
 });
 
-export const UserModel = mongoose.model<UserModel & Document>('User', UserSchema);
+export const UserModel = mongoose.model<User & Document>('User', UserSchema);

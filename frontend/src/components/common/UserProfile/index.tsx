@@ -1,13 +1,14 @@
-import { CachedUser } from '@contexts/ws-cache-context';
 import { AuthLevel, AuthTag } from '@utils/constants';
-import { Modal } from '..';
+
 import { Background, Container, UserAvatar, UserContent, Username, UserTag } from './styles';
+
+import { Modal } from '../../ui/Modal';
 
 export interface UserProfileProps {
   open?: boolean;
   handleClose?: () => void;
 
-  user: CachedUser;
+  user: APIUser;
 }
 
 export function UserProfileModal({ user, ...props }: UserProfileProps) {

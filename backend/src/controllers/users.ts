@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import validator from 'validator';
+
 import { UserModel } from '@database/models/user';
-import APIError from '@utils/errors/api-error';
 import AuthService from '@services/auth-service';
+import APIError from '@utils/errors/api-error';
+
 import { BaseController } from './base';
 
 export class UsersController extends BaseController {
@@ -94,9 +96,9 @@ export class UsersController extends BaseController {
       avatar,
     });
 
-    const token = AuthService.jwtSign(user._id);
+    const token = AuthService.jwtSign(user.id);
     res.status(201).json({
-      user: user.toJSON({ versionKey: false }),
+      user: user.toObject(),
       token,
     });
   }
@@ -114,6 +116,6 @@ export class UsersController extends BaseController {
       return;
     }
 
-    res.status(200).json(user.toJSON({ versionKey: false }));
+    res.status(200).json(user.toObject());
   }
 }

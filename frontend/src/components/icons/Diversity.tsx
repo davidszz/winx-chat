@@ -1,7 +1,7 @@
-import { useContext } from 'react';
+import { SVGAttributes, useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 
-export function Diversity() {
+export function Diversity(props: SVGAttributes<SVGSVGElement>) {
   const theme = useContext(ThemeContext);
 
   return (
@@ -12,6 +12,7 @@ export function Diversity() {
       viewBox="0 0 24 24"
       width="24px"
       fill={theme.colors.brand}
+      {...props}
     >
       <g>
         <rect fill="none" height="24" width="24" />

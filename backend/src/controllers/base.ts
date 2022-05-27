@@ -1,4 +1,5 @@
 import { Response } from 'express';
+
 import { APIErrorResponse } from '@utils/errors/api-error';
 
 export abstract class BaseController {

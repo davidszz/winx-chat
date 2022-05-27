@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
+
 import { LoadingSpinner } from '@components/spinners/LoadingSpinner';
+
 import { Container, StyleProps } from './styles';
 
 interface Props extends StyleProps {

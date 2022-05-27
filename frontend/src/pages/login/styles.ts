@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import { transparentize } from 'polished';
+import styled from 'styled-components';
+
 import { DeviceWidth } from '@utils/constants';
 
 export const Container = styled.div`

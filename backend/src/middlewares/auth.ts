@@ -1,5 +1,6 @@
-import AuthService from '@services/auth-service';
 import { NextFunction, Request, Response } from 'express';
+
+import AuthService from '@services/auth-service';
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction): void {
   const token = req.headers?.['x-access-token'] as string;

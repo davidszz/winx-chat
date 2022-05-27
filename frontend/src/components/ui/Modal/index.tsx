@@ -1,5 +1,6 @@
 import { MouseEvent, ReactNode, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
+
 import { Wrapper, ModalBody } from './styles';
 
 export interface ModalProps {

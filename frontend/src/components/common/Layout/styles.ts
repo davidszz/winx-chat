@@ -1,5 +1,6 @@
-import { DeviceWidth } from '@utils/constants';
 import styled from 'styled-components';
+
+import { DeviceWidth } from '@utils/constants';
 
 export const Wrapper = styled.div`
   position: absolute;

@@ -7,8 +7,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/**/*.{ts,tsx} --ext .ts,.tsx",
-    "lint:fix": "eslint ./src/**/*.{ts,tsx} --ext .ts,.tsx --fix",
+    "lint": "eslint ./src/**/* --ext .ts,.tsx",
+    "lint:fix": "eslint ./src/**/* --ext .ts,.tsx --fix",
     "prettier": "prettier --write ./src/**/*.{ts,tsx}"
   },
   "eslintConfig": {
@@ -39,6 +39,7 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "axios": "^0.27.2",
+    "nanoid": "^3.3.4",
     "polished": "^4.2.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -69,6 +70,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",

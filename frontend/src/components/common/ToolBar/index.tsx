@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { Container, Logo } from './styles';
 
 export interface ToolBarProps {

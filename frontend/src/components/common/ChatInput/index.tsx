@@ -1,28 +1,29 @@
-import { ChangeEvent, KeyboardEvent, useCallback } from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react';
+
 import { Container, InputWrapper } from './styles';
 
 export interface ChatInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  onSend: () => void;
+  onSend: (value: string, setValue: (value: string) => void) => void;
 }
 
-export function ChatInput({ value, onChange, onSend }: ChatInputProps) {
+export function ChatInput({ onSend }: ChatInputProps) {
+  const [value, setValue] = useState('');
+
   const handleKeyDown = useCallback(
     (ev: KeyboardEvent) => {
       if (ev.key === 'Enter' && !ev.shiftKey && !ev.altKey) {
         ev.preventDefault();
-        onSend();
+        onSend(value, setValue);
       }
     },
-    [onSend]
+    [onSend, value]
   );
 
   const handleInputChange = useCallback(
     (ev: ChangeEvent<HTMLTextAreaElement>) => {
-      onChange(ev.target.value);
+      setValue(ev.target.value);
     },
-    [onChange]
+    [setValue]
   );
 
   return (

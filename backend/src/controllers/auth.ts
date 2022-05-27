@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
+
 import { UserModel } from '@database/models/user';
 import AuthService from '@services/auth-service';
 import APIError from '@utils/errors/api-error';
+
 import { BaseController } from './base';
 
 export class AuthController extends BaseController {
@@ -32,10 +34,10 @@ export class AuthController extends BaseController {
       return;
     }
 
-    const token = AuthService.jwtSign(user._id);
+    const token = AuthService.jwtSign(user.id);
     res.status(200).json({
       user: {
-        ...user.toJSON({ versionKey: false }),
+        ...user.toObject(),
         password: undefined,
       },
       token,

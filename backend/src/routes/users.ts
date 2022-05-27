@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { UsersController } from '@controllers/users';
 import { authMiddleware } from '@middlewares/auth';
 

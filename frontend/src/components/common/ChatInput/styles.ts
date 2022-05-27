@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import TextareaAutosize from 'react-textarea-autosize';
+import styled from 'styled-components';
 
 export const InputWrapper = styled.div`
   padding: 12px 16px;

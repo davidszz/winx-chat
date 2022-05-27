@@ -2,7 +2,7 @@ import { UserModel } from '@database/models/user';
 import { AuthLevel } from '@utils/constants';
 
 export class User {
-  public readonly _id: string;
+  public readonly id: string;
   public username: string;
   public email: string;
   public avatar?: string;
@@ -10,7 +10,7 @@ export class User {
   public readonly createdAt: Date;
 
   constructor(data: UserModel) {
-    this._id = data._id;
+    this.id = data.id;
     this.username = data.username;
     this.email = data.email;
     this.avatar = data.avatar;
@@ -20,7 +20,7 @@ export class User {
 
   public toJSON(): Omit<UserModel, 'updatedAt'> {
     return {
-      _id: this._id,
+      id: this.id,
       username: this.username,
       email: this.email,
       avatar: this.avatar,

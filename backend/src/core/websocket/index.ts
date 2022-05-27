@@ -1,6 +1,8 @@
 import { Server } from 'http';
 import { ServerOptions, WebSocket, WebSocketServer as WSS } from 'ws';
+
 import { HEARTBEAT_INTERVAL } from '@utils/constants';
+
 import { onConnection } from './actions/connection';
 import { UsersManager } from './managers/users';
 

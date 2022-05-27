@@ -41,12 +41,14 @@ export const Username = styled.h4`
   }
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<{ pending?: boolean }>`
   text-align: left;
 
   font-size: 0.875rem;
   line-height: 1.2rem;
   font-family: 'Open Sans', 'Robot', sans-serif;
+
+  opacity: ${(props) => (props.pending ? '.6' : '1')};
 
   white-space: pre-line;
   overflow-wrap: anywhere;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { DeviceWidth } from '@utils/constants';
 
 export const Container = styled.div<{ show: boolean }>`
@@ -11,7 +12,7 @@ export const Container = styled.div<{ show: boolean }>`
   @media (max-width: ${DeviceWidth.Tablet}px) {
     position: absolute;
 
-    height: 100%;
+    height: calc(100vh - 46px);
     width: 100%;
     max-width: 240px;
 

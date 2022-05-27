@@ -29,7 +29,12 @@ export enum AuthLevel {
 export const HEARTBEAT_INTERVAL = 120000;
 
 export const DefaultAvatars = [
-  'https://i.pinimg.com/736x/cb/ac/3c/cbac3cf097281ff136f49c55ffaa65af.jpg',
+  '/assets/images/aisha.jpg',
+  '/assets/images/bloom.jpg',
+  '/assets/images/flora.jpg',
+  '/assets/images/musa.jpg',
+  '/assets/images/stella.jpg',
+  '/assets/images/tecna.jpg',
 ];
 
 export const AuthTag = {

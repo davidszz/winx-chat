@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { UserProfileModal } from '@components/modals/UserProfile';
-import { CachedUser } from '@contexts/ws-cache-context';
-import { AuthLevel, AuthTag } from '@utils/constants';
+
+import { UserProfileModal } from '@components/common/UserProfile';
+
 import { Avatar, Container, Username } from './styles';
 
 export interface UserBoxProps {
-  user: CachedUser;
+  user: APIUser;
 }
 
 export function UserBox({ user }: UserBoxProps) {
