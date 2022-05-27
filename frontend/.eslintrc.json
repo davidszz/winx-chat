@@ -26,8 +26,8 @@
       {
         "ts": "never",
         "tsx": "never",
-	"js": "never",
-	"jsx": "never"
+        "js": "never",
+        "jsx": "never"
       }
     ],
     "import/prefer-default-export": "off",
@@ -39,7 +39,7 @@
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx", ".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
     "react/jsx-no-bind": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off"

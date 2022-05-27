@@ -15,6 +15,8 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 
+  z-index: 999;
+
   background-color: rgba(0, 0, 0, 0.6);
 
   transition: opacity 200ms;
