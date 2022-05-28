@@ -31,7 +31,7 @@ export const HEARTBEAT_INTERVAL = 120000;
 export const DefaultAvatars = [
   '/assets/images/aisha.jpg',
   '/assets/images/bloom.jpg',
-  '/assets/images/flora.jpg',
+  '/assets/images/flora.png',
   '/assets/images/musa.jpg',
   '/assets/images/stella.jpg',
   '/assets/images/tecna.jpg',

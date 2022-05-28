@@ -10,35 +10,34 @@ import { Message } from '../Message';
 export function MessageList() {
   const { messages } = useWsCache();
 
-  const [firstFetch, setFirstFetch] = useState(false);
-
   const messageListRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView();
+  }, [scrollRef]);
 
   useEffect(() => {
     if (messages.length && messageListRef.current) {
       const el = messageListRef.current;
-      if (!firstFetch) {
-        el.scrollTop = el.scrollHeight;
-        setFirstFetch(true);
-      } else if (el.scrollHeight - el.clientHeight - el.scrollTop < 200) {
-        el.scrollTop = el.scrollHeight;
+      if (el.scrollHeight - el.clientHeight - el.scrollTop < el.clientHeight) {
+        scrollRef.current?.scrollIntoView();
       }
     }
-  }, [messages, messageListRef, firstFetch, setFirstFetch]);
+  }, [messages, messageListRef]);
 
   return (
     <Container ref={messageListRef}>
-      {messages
-        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-        .map((x, i, arr) => (
-          <Message
-            user={x.author}
-            content={x.content}
-            full={arr[i - 1]?.author.id !== x.author.id}
-            pending={x.status === MessageStatus.Pending}
-            key={Math.random().toString(16)}
-          />
-        ))}
+      {messages.map((x, i, arr) => (
+        <Message
+          user={x.author}
+          content={x.content}
+          full={arr[i - 1]?.author.id !== x.author.id}
+          pending={x.status === MessageStatus.Pending}
+          key={Math.random().toString(16)}
+        />
+      ))}
+      <div ref={scrollRef} />
     </Container>
   );
 }

@@ -8,6 +8,8 @@ import { api } from '@lib/api';
 import { OpCode, WSEvent } from '@utils/constants';
 import { Util } from '@utils/util';
 
+import { LoadingScreen } from '@components/screens/LoadingScreen';
+
 export enum MessageStatus {
   Sended,
   Pending,
@@ -39,10 +41,11 @@ export const WsCacheContext = createContext({} as WsCacheContextValue);
 
 export function WsCacheProvider({ children }: WsCacheContextProps) {
   const authInfo = useAuth();
+  const { lastJsonMessage } = useWs();
+
   const [users, setUsers] = useState<APIUser[]>([]);
   const [messages, setMessages] = useState<APIMessageWithStatus[]>([]);
-
-  const { lastJsonMessage } = useWs();
+  const [loadingMessages, setLoadingMessages] = useState(true);
 
   const transformUser = (user: APIUser) => ({
     ...user,
@@ -57,25 +60,27 @@ export function WsCacheProvider({ children }: WsCacheContextProps) {
     createdAt: new Date(message.createdAt),
   });
 
-  const addMessages = useCallback((msgs: APIMessageWithStatus[]) => {
+  const addMessages = useCallback((msgs: APIMessageWithStatus[], insertAfter = true) => {
     setMessages((state) => {
       const clone = state.map((x) => {
         const msg = msgs.find((m) => (x.nonce && x.nonce === m.nonce) || m.id === x.id);
         return msg ? transformMessage(msg) : x;
       });
 
-      return [
-        ...clone,
-        ...msgs
-          .filter((x) => !clone.some((m) => m.id === x.id))
-          .map((x) => transformMessage(x, x.status)),
-      ];
+      const remainingMsgs = msgs
+        .filter((x) => !clone.some((m) => m.id === x.id))
+        .map((x) => transformMessage(x, x.status));
+
+      if (insertAfter) {
+        return [...clone, ...remainingMsgs];
+      }
+      return [...remainingMsgs, ...clone];
     });
   }, []);
 
   useEffect(() => {
-    function fetchMessages() {
-      api
+    async function fetchMessages() {
+      await api
         .get('/messages', {
           params: {
             limit: 100,
@@ -86,12 +91,16 @@ export function WsCacheProvider({ children }: WsCacheContextProps) {
         })
         .catch((res) => {
           if (res.response?.status === 429 && res.response?.data?.retryAfter) {
-            setTimeout(() => {
-              fetchMessages();
-            }, res.response.data.retryAfter);
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(fetchMessages());
+              }, res.response.data.retryAfter);
+            });
           }
           return null;
         });
+
+      setLoadingMessages(false);
     }
 
     fetchMessages();
@@ -144,6 +153,10 @@ export function WsCacheProvider({ children }: WsCacheContextProps) {
 
   if (!authInfo.user) {
     return <Navigate to="/login" />;
+  }
+
+  if (loadingMessages) {
+    return <LoadingScreen />;
   }
 
   return <WsCacheContext.Provider value={value}>{children}</WsCacheContext.Provider>;
