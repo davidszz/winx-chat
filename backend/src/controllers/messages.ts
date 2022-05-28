@@ -109,7 +109,7 @@ export class MessagesController extends BaseController {
     const messages = await MessageModel.find({
       ...(query.after && { _id: { $gt: query.after } }),
     })
-      .sort({ _id: 1 })
+      .sort({ _id: -1 })
       .limit(limit);
 
     res.json({

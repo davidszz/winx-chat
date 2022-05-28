@@ -76,7 +76,7 @@ export function WebSocketProvider({ children }: WebSocketContextProps) {
         heartbeatRef.current = setInterval(() => {
           log('[Socket] -> Sent Heartbeat');
           sendJsonMessage({ op: OpCode.Heartbeat });
-        }, lastJsonMessage.d!.heartbeatInterval);
+        }, 5000);
       }
     }
   }, [lastJsonMessage]);

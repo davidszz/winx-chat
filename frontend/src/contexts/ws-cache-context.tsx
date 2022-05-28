@@ -87,7 +87,11 @@ export function WsCacheProvider({ children }: WsCacheContextProps) {
           },
         })
         .then(({ data }) => {
-          addMessages(data.results);
+          addMessages(
+            data.results.sort(
+              (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            )
+          );
         })
         .catch((res) => {
           if (res.response?.status === 429 && res.response?.data?.retryAfter) {

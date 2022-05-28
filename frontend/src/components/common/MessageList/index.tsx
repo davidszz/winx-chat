@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { MessageStatus } from '@contexts/ws-cache-context';
 import { useWsCache } from '@hooks/use-ws-cache';
@@ -34,7 +34,7 @@ export function MessageList() {
           content={x.content}
           full={arr[i - 1]?.author.id !== x.author.id}
           pending={x.status === MessageStatus.Pending}
-          key={Math.random().toString(16)}
+          key={x.id}
         />
       ))}
       <div ref={scrollRef} />
