@@ -73,7 +73,7 @@ export const InputLabel = styled.span`
   color: ${(props) => props.theme.colors.textHover};
 `;
 
-export const CreateAccountLabel = styled.div`
+export const LoginLabel = styled.div`
   font-size: 0.875rem;
   text-align: center;
   margin-bottom: 16px;

@@ -1,119 +1,87 @@
-import { AxiosError } from 'axios';
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import validator from 'validator';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTheme } from 'styled-components';
 
-import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAuth } from '@hooks/use-auth';
-import { APIError } from '@lib/api';
-
-import { LoadingScreen } from '@components/screens/LoadingScreen';
+import { EnvelopeSolid } from '@components/icons/EnvelopeSolid';
+import { KeySolid } from '@components/icons/KeySolid';
 import { Button } from '@components/ui/Button';
 import { TextInput } from '@components/ui/TextInput';
 
-import { Container, LoginContainer, InputWrapper, Logo, InputLabel, ErrorBox } from './styles';
+import {
+  Wrapper,
+  Container,
+  Header,
+  Logo,
+  Content,
+  InputWrapper,
+  InputLabel,
+  CreateAccountLabel,
+} from './styles';
 
-export function Login() {
-  const navigate = useNavigate();
-  const { user, signIn } = useAuth();
-  const [errorMsg, setErrorMsg] = useState('');
-  const [emailInputValue, setEmailInputValue] = useState('');
-  const [passwordInputValue, setPasswordInputValue] = useState('');
-  const [loggingIn, setLoggingIn] = useState(false);
+export function LoginPage() {
+  const theme = useTheme();
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-  }, [user]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleEmailChange = useCallback(
-    (value: string) => {
-      setEmailInputValue(value);
-    },
-    [setEmailInputValue]
-  );
-
-  const handlePasswordChange = useCallback(
-    (value: string) => {
-      setPasswordInputValue(value);
-    },
-    [setPasswordInputValue]
-  );
-
-  const handleEmailValidation = useCallback((value: string) => {
-    if (!validator.isEmail(value)) {
-      return 'Email inválido';
-    }
-    return undefined;
-  }, []);
-
-  const handlePasswordValidation = useCallback((value: string) => {
-    if (value.length < 1) {
-      return 'Forneça uma senha';
-    }
-    return undefined;
-  }, []);
-
-  function handleLogin() {
-    setLoggingIn(true);
-    signIn(emailInputValue, passwordInputValue)
-      .catch((err: AxiosError<APIError>) => {
-        if (err.response?.status && [401, 404].includes(err.response?.status)) {
-          setErrorMsg('Email e/ou senha incorretos.');
-        } else {
-          setErrorMsg(
-            err.response?.data.message ??
-              'Ocorreu um erro ao fazer login, tente novamente mais tarde.'
-          );
-        }
-      })
-      .finally(() => {
-        setLoggingIn(false);
-      });
+  function handleEmailChange(value: string) {
+    setEmail(value.trim());
   }
 
-  if (user) {
-    return <LoadingScreen />;
+  function handlePasswordChange(value: string) {
+    setPassword(value.trim());
+  }
+
+  function handleValidateEmail() {
+    if (!email.trim()) {
+      return 'Por favor, forneça um email válido.';
+    }
+    return '';
+  }
+
+  function handleValidatePassword() {
+    if (!password.trim()) {
+      return 'Por favor, forneça uma senha válida.';
+    }
+    return '';
   }
 
   return (
-    <Container>
-      <Logo src="/assets/images/winx.png" alt="winx logo" />
-      <LoginContainer>
-        <InputWrapper>
-          <InputLabel>Email</InputLabel>
-          <TextInput
-            placeholder="Email"
-            value={emailInputValue}
-            onChange={handleEmailChange}
-            icon={<FontAwesomeIcon icon={faEnvelope} />}
-            validate={handleEmailValidation}
-            disabled={loggingIn}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <InputLabel>Senha</InputLabel>
-          <TextInput
-            placeholder="Senha"
-            value={passwordInputValue}
-            onChange={handlePasswordChange}
-            hideValue
-            icon={<FontAwesomeIcon icon={faKey} />}
-            validate={handlePasswordValidation}
-            disabled={loggingIn}
-          />
-        </InputWrapper>
-        <Button
-          loading={loggingIn}
-          disabled={!(emailInputValue && passwordInputValue)}
-          onClick={handleLogin}
-        >
-          Fazer login
-        </Button>
-        {errorMsg && <ErrorBox>{errorMsg}</ErrorBox>}
-      </LoginContainer>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Header>
+          <Logo src="/static/winx.png" alt="Winx Logo" />
+        </Header>
+        <Content>
+          <InputWrapper>
+            <InputLabel>Email</InputLabel>
+            <TextInput
+              value={email}
+              placeholder="Email"
+              type="email"
+              icon={<EnvelopeSolid fill={theme.colors.brand} />}
+              onChange={handleEmailChange}
+              onValidate={handleValidateEmail}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <InputLabel>Senha</InputLabel>
+            <TextInput
+              value={password}
+              placeholder="Senha"
+              type="password"
+              icon={<KeySolid fill={theme.colors.brand} />}
+              onChange={handlePasswordChange}
+              onValidate={handleValidatePassword}
+            />
+          </InputWrapper>
+        </Content>
+        <CreateAccountLabel>
+          Não possui uma conta?&nbsp;
+          <Link to="/register">Crie uma</Link>
+        </CreateAccountLabel>
+        <Button>ENTRAR</Button>
+      </Container>
+    </Wrapper>
   );
 }

@@ -1,40 +1,14 @@
-import { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react';
+import { SendSolid } from '@components/icons/SendSolid';
 
-import { Container, InputWrapper } from './styles';
+import { Wrapper, Input, SendIconWrapper } from './styles';
 
-export interface ChatInputProps {
-  onSend: (value: string, setValue: (value: string) => void) => void;
-}
-
-export function ChatInput({ onSend }: ChatInputProps) {
-  const [value, setValue] = useState('');
-
-  const handleKeyDown = useCallback(
-    (ev: KeyboardEvent) => {
-      if (ev.key === 'Enter' && !ev.shiftKey && !ev.altKey) {
-        ev.preventDefault();
-        onSend(value, setValue);
-      }
-    },
-    [onSend, value]
-  );
-
-  const handleInputChange = useCallback(
-    (ev: ChangeEvent<HTMLTextAreaElement>) => {
-      setValue(ev.target.value);
-    },
-    [setValue]
-  );
-
+export function ChatInput() {
   return (
-    <InputWrapper>
-      <Container
-        maxRows={1}
-        placeholder="Digite algo"
-        value={value}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-      />
-    </InputWrapper>
+    <Wrapper>
+      <Input maxRows={4} placeholder="Digite algo aqui" />
+      <SendIconWrapper>
+        <SendSolid />
+      </SendIconWrapper>
+    </Wrapper>
   );
 }

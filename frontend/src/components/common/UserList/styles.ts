@@ -2,63 +2,53 @@ import styled from 'styled-components';
 
 import { DeviceWidth } from '@utils/constants';
 
-export const Container = styled.div<{ show: boolean }>`
+export const UserListWrapper = styled.div<{ show: boolean }>`
   grid-area: UL;
 
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  background-color: ${(props) => props.theme.colors.backgroundPrimary};
+  border-left: 1px solid ${(props) => props.theme.colors.border};
 
-  border-left: 1px solid ${({ theme }) => theme.colors.stroke};
+  display: ${(props) => (props.show ? 'block' : 'none')};
+
+  padding: 24px 6px 6px;
+
+  overflow-y: auto;
+
+  height: calc(100vh - 56px);
 
   @media (max-width: ${DeviceWidth.Tablet}px) {
     position: absolute;
-
-    height: calc(100vh - 46px);
-    width: 100%;
-    max-width: 240px;
-
+    top: 56px;
     right: 0;
-    top: 46px;
 
-    ${(props) => {
-      if (props.show) {
-        return '';
-      }
-
-      return `
-        display: none;
-      `;
-    }};
+    width: 240px;
   }
-`;
-
-export const BoxTitle = styled.h4`
-  font-weight: 700;
-  font-size: 0.75rem;
-
-  padding: 6px;
-
-  text-transform: uppercase;
-
-  color: ${({ theme }) => theme.colors.textSecondary};
-`;
-
-export const BoxWrapper = styled.div`
-  padding: 6px;
-  width: 100%;
-
-  max-height: calc(100vh - 46px);
-  overflow-y: auto;
 
   ::-webkit-scrollbar {
     width: 4px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.colors.backgroundTertiary};
+    background-color: ${(props) => props.theme.colors.backgroundSecondary};
     border-radius: 4px;
   }
+`;
 
-  ::-webkit-scrollbar-track {
-    background-color: ${(props) => props.theme.colors.backgroundPrimary};
-  }
+export const UsersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 16px;
+`;
+
+export const ContainerTitle = styled.h4`
+  font-size: 0.7rem;
+  font-weight: 600;
+
+  color: ${(props) => props.theme.colors.textHover};
+  opacity: 0.6;
+
+  text-transform: uppercase;
+
+  margin: 6px 0 6px 6px;
 `;

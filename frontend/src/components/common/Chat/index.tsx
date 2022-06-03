@@ -1,52 +1,35 @@
-import { useAuth } from '@hooks/use-auth';
-import { useWsCache } from '@hooks/use-ws-cache';
-import { api } from '@lib/api';
-
-import { Container } from './styles';
+import { ChatInputWrapper, ChatWrapper, MessagesList } from './styles';
 
 import { ChatInput } from '../ChatInput';
-import { MessageList } from '../MessageList';
+import { Message } from '../Message';
 
 export function Chat() {
-  const { user } = useAuth();
-  const { addPendingMessage } = useWsCache();
-
-  function handleCreateMessage(value: string, setValue: (value: string) => void) {
-    if (!value.trim()) {
-      return;
-    }
-
-    setValue('');
-
-    const nonce = Math.random().toString(16).split('.')[1];
-
-    addPendingMessage({
-      content: value,
-      nonce,
-      user: user!,
-    });
-
-    const createMessage = async (): Promise<any> =>
-      api
-        .post('/messages', {
-          content: value,
-          nonce,
-        })
-        .catch((err) => {
-          if (err.response?.status === 429 && err.response?.data?.retryAfter) {
-            setTimeout(() => {
-              createMessage();
-            }, err.response.data.retryAfter);
-          }
-        });
-
-    createMessage();
-  }
+  const user = {
+    username: 'Sasuke',
+    avatar: 'https://aniyuki.com/wp-content/uploads/2022/04/aniyuki-sasuke-uchiha-avatar-29.jpg',
+  };
 
   return (
-    <Container>
-      <MessageList />
-      <ChatInput onSend={handleCreateMessage} />
-    </Container>
+    <ChatWrapper>
+      <MessagesList>
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+        <Message user={user} content="kkk" />
+      </MessagesList>
+      <ChatInputWrapper>
+        <ChatInput />
+      </ChatInputWrapper>
+    </ChatWrapper>
   );
 }

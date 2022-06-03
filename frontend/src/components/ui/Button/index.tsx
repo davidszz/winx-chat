@@ -1,26 +1,55 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
-import { LoadingSpinner } from '@components/spinners/LoadingSpinner';
+import { Circle } from '@components/spinners/Circle';
 
-import { Container, StyleProps } from './styles';
+import { ButtonWrapper } from './styles';
 
-interface Props extends StyleProps {
-  children?: ReactNode;
+interface Props {
   disabled?: boolean;
   loading?: boolean;
+  backgroundColor?: string;
+  textColor?: string;
   onClick?: () => void;
+  onEnterKeyDown?: () => void;
 }
 
-export function Button({ children, loading, onClick, ...props }: Props) {
+export function Button({
+  children,
+  disabled,
+  loading,
+  backgroundColor,
+  textColor,
+  onClick,
+  onEnterKeyDown,
+}: PropsWithChildren<Props>) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (onEnterKeyDown && event.key === 'Enter') {
+        onEnterKeyDown();
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onEnterKeyDown]);
+
   function handleClick() {
-    if (onClick && !loading && !props.disabled) {
+    if (!disabled && !loading && onClick) {
       onClick();
     }
   }
 
   return (
-    <Container disabled={loading || props.disabled} {...props} onClick={handleClick}>
-      {loading ? <LoadingSpinner /> : children}
-    </Container>
+    <ButtonWrapper
+      disabled={disabled}
+      backgroundColor={backgroundColor}
+      textColor={textColor}
+      onClick={handleClick}
+    >
+      {loading ? <Circle /> : children}
+    </ButtonWrapper>
   );
 }

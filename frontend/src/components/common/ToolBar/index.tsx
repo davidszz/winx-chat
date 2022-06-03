@@ -1,16 +1,27 @@
-import { ReactNode } from 'react';
+import { LogoutSolid } from '@components/icons/LogoutSolid';
+import { UserGroupSolid } from '@components/icons/UserGroupSolid';
 
-import { Container, Logo } from './styles';
+import { ToolbarWrapper, LogoLink, Logo, ToolsIcons, ToolIconWrapper } from './styles';
 
-export interface ToolBarProps {
-  children?: ReactNode;
+interface Props {
+  onUserListButtonClick: () => void;
 }
 
-export function ToolBar({ children }: ToolBarProps) {
+export function Toolbar({ onUserListButtonClick }: Props) {
   return (
-    <Container>
-      <Logo src="/assets/images/winx.png" alt="Winx Logo" />
-      {children}
-    </Container>
+    <ToolbarWrapper>
+      <LogoLink href="/">
+        <Logo src="/static/winx.png" alt="Winx Logo" />
+      </LogoLink>
+
+      <ToolsIcons>
+        <ToolIconWrapper onClick={onUserListButtonClick}>
+          <UserGroupSolid />
+        </ToolIconWrapper>
+        <ToolIconWrapper>
+          <LogoutSolid />
+        </ToolIconWrapper>
+      </ToolsIcons>
+    </ToolbarWrapper>
   );
 }

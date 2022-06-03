@@ -1,55 +1,47 @@
 import styled from 'styled-components';
 
-export const ContainerFull = styled.div`
-  position: relative;
-
+export const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
 
-  padding: 0 48px 0 68px;
-  margin-top: 24px;
-`;
+  padding: 6px 12px;
 
-export const Container = styled.div`
-  display: flex;
-  padding: 0 48px 0 68px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const Avatar = styled.img`
-  position: absolute;
-  left: 16px;
-
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
 
   border-radius: 50%;
 
+  margin-right: 12px;
+
   cursor: pointer;
-  user-select: none;
 `;
 
-export const Username = styled.h4`
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-family: 'Open Sans', 'Roboto', sans-serif;
+export const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-  color: ${(props) => props.theme.colors.textPrimary};
-  cursor: pointer;
+export const Username = styled.span`
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1rem;
+  margin-bottom: 2px;
 
   &:hover {
     text-decoration: underline;
   }
+
+  cursor: pointer;
 `;
 
-export const Content = styled.div<{ pending?: boolean }>`
-  text-align: left;
-
+export const Content = styled.div`
   font-size: 0.875rem;
-  line-height: 1.2rem;
-  font-family: 'Open Sans', 'Robot', sans-serif;
-
-  opacity: ${(props) => (props.pending ? '.6' : '1')};
-
-  white-space: pre-line;
-  overflow-wrap: anywhere;
+  line-height: 1rem;
+  font-weight: 400;
 `;

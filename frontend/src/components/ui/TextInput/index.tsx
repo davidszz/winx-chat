@@ -1,28 +1,37 @@
-import { ChangeEvent, FocusEvent, ReactNode, useState } from 'react';
+import { useState, ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
+import { useTheme } from 'styled-components';
 
-import { StyleProps, Input, Container, Wrapper, IconWrapper, ErrorSpan } from './styles';
+import { CheckCircle } from '@components/icons/CheckCircle';
+import { XCircle } from '@components/icons/XCircle';
+import { Tooltip } from '@components/tooltips';
 
-interface Props extends StyleProps {
-  placeholder?: string;
+import { TextInputWrapper, Input, PrefixIcon, SuffixIcon } from './styles';
+
+interface Props {
   value?: string;
-  hideValue?: boolean;
-  onChange?: (value: string) => void;
-  validate?: (value: string) => string | undefined;
+  placeholder?: string;
+  type?: InputHTMLAttributes<HTMLInputElement>['type'];
   icon?: ReactNode;
-  disabled?: boolean;
+  onChange?: (value: string) => void;
+  onValidate?: () => string | undefined;
 }
 
 export function TextInput({
+  value = '',
   placeholder,
-  value,
-  hideValue,
-  onChange,
-  validate,
   icon,
-  disabled,
-  ...props
+  type = 'text',
+  onChange,
+  onValidate,
 }: Props) {
-  const [errorMsg, setErrorMsg] = useState<string>();
+  const theme = useTheme();
+
+  const [error, setError] = useState<string>();
+  /**
+   * A temp fix while the "react-tooltip" package ins't updated
+   * to fix react-18 tooltips not hiding
+   */
+  const [showErrorTooltip, setShowErrorTooltip] = useState(false);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     if (onChange) {
@@ -30,34 +39,43 @@ export function TextInput({
     }
   }
 
-  function handleValidation(event: FocusEvent<HTMLInputElement>) {
-    if (validate) {
-      const message = validate(event.target.value);
-      if (message) {
-        setErrorMsg(message);
-        return;
-      }
-    }
-
-    if (errorMsg) {
-      setErrorMsg(undefined);
+  function handleValidate() {
+    if (onValidate) {
+      setError(onValidate() ?? '');
     }
   }
 
   return (
-    <Wrapper disabled={disabled}>
-      <Container hasError={!!errorMsg} {...props}>
-        {icon && <IconWrapper>{icon}</IconWrapper>}
-        <Input
-          type={hideValue ? 'password' : 'text'}
-          placeholder={placeholder}
-          value={value}
-          onChange={handleChange}
-          onBlur={handleValidation}
-          disabled={disabled}
-        />
-      </Container>
-      {errorMsg && <ErrorSpan>{errorMsg}</ErrorSpan>}
-    </Wrapper>
+    <TextInputWrapper>
+      {icon && <PrefixIcon>{icon}</PrefixIcon>}
+      <Input
+        type={type}
+        value={value}
+        placeholder={placeholder}
+        onChange={handleChange}
+        onBlur={handleValidate}
+        hasPrefix={!!icon}
+        hasSuffix={!!(error || (error !== undefined && onValidate))}
+      />
+      {error ? (
+        <SuffixIcon
+          data-tip={error}
+          onMouseEnter={() => setShowErrorTooltip(true)}
+          onMouseLeave={() => {
+            setShowErrorTooltip(false);
+          }}
+        >
+          <XCircle fill={theme.colors.red} data-tip={error} />
+          {showErrorTooltip && <Tooltip effect="solid" />}
+        </SuffixIcon>
+      ) : (
+        error !== undefined &&
+        onValidate && (
+          <SuffixIcon>
+            <CheckCircle fill={theme.colors.green} />
+          </SuffixIcon>
+        )
+      )}
+    </TextInputWrapper>
   );
 }

@@ -1,25 +1,34 @@
 import { createGlobalStyle } from 'styled-components';
 
-export default createGlobalStyle`
+export const GlobalStyles = createGlobalStyle`
   * {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
   }
 
   body {
-    background: ${({ theme }) => theme.colors.backgroundPrimary};
-    color: ${({ theme }) => theme.colors.textPrimary};
-
-    font-family: 'Roboto', sans-serif;
     font-size: 16px;
-  }
+    font-family: 'Roboto', sans-serif;
+    background: ${(props) => props.theme.colors.backgroundPrimary};
+    color: ${(props) => props.theme.colors.textPrimary};
 
-  h1, h2, h3, h4 {
-    font-family: 'Poppins', 'Open Sans', 'Roboto', sans-serif;
+    width: 100%;
+    height: 100%;
   }
 
   input, textarea {
+    outline: none;
+    color: inherit;
     font-family: 'Roboto', sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.textLink};
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;

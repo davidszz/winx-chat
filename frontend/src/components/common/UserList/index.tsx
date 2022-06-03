@@ -1,19 +1,24 @@
-import { Container, BoxTitle, BoxWrapper } from './styles';
+import { UserListWrapper, UsersContainer, ContainerTitle } from './styles';
 
-import { UserBox } from '../UserBox';
+import { UserRow } from './UserRow';
 
-export interface UserListProps {
-  users?: APIUser[];
+interface Props {
   show?: boolean;
 }
 
-export function UserList({ users, show = true }: UserListProps) {
+export function UserList({ show }: Props) {
   return (
-    <Container show={show}>
-      <BoxWrapper>
-        <BoxTitle>Conectado - {users?.length ?? 0}</BoxTitle>
-        {users && users.map((x) => <UserBox key={x.id} user={x} />)}
-      </BoxWrapper>
-    </Container>
+    <UserListWrapper show={!!show}>
+      <UsersContainer>
+        <ContainerTitle>Conectado - 1</ContainerTitle>
+        <UserRow
+          avatar="https://static.wikia.nocookie.net/naruto/images/e/e7/Sasuke_epi_319.png/revision/latest?cb=20130629210647&path-prefix=pt-br"
+          username="Sasuke"
+        />
+      </UsersContainer>
+      <UsersContainer>
+        <ContainerTitle>Desconectado - 0</ContainerTitle>
+      </UsersContainer>
+    </UserListWrapper>
   );
 }

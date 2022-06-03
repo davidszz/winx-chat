@@ -1,46 +1,24 @@
-import { memo, ReactNode, useState } from 'react';
+import { memo } from 'react';
 
-import { UserProfileModal } from '@components/common/UserProfile';
+import { Wrapper, Avatar, Info, Username, Content } from './styles';
 
-import { Container, ContainerFull, Content, Avatar, Username } from './styles';
-
-export interface MessageProps {
-  user: APIUser;
-  content: string | ReactNode;
-  full?: boolean;
-  pending?: boolean;
+interface Props {
+  user: {
+    avatar: string;
+    username: string;
+  };
+  content: string;
 }
 
-function MessageComponent({ user, content, full = true, pending }: MessageProps) {
-  const [showProfile, setShowProfile] = useState(false);
-
-  function handleToggleProfile() {
-    setShowProfile((state) => !state);
-  }
-
-  if (full) {
-    return (
-      <ContainerFull>
-        <Avatar
-          onClick={handleToggleProfile}
-          src={user.avatar}
-          alt={`Avatar de ${user.username}`}
-        />
-        <Username onClick={handleToggleProfile}>{user.username}</Username>
-        <Content pending={pending}>{content}</Content>
-        <UserProfileModal
-          user={user}
-          open={showProfile}
-          handleClose={() => setShowProfile(false)}
-        />
-      </ContainerFull>
-    );
-  }
-
+function MessageComponent({ user, content }: Props) {
   return (
-    <Container>
-      <Content pending={pending}>{content}</Content>
-    </Container>
+    <Wrapper>
+      <Avatar src={user.avatar} alt={`Avatar de ${user.username}`} />
+      <Info>
+        <Username>{user.username}</Username>
+        <Content>{content}</Content>
+      </Info>
+    </Wrapper>
   );
 }
 

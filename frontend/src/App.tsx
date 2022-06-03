@@ -1,15 +1,17 @@
 import { ThemeProvider } from 'styled-components';
 
-import GlobalStyles from '@styles/global';
-import { theme as darkTheme } from '@styles/theme/dark';
+import { GlobalStyles } from '@styles/global';
+import { light } from '@styles/themes';
 
-import { Router } from './router';
+import Routes from './router';
 
-export function App() {
+function App() {
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={light}>
       <GlobalStyles />
-      <Router />
+      <Routes />
     </ThemeProvider>
   );
 }
+
+export default App;
